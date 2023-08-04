@@ -1,4 +1,4 @@
-from flask import Flask, render_template,redirect,url_for
+from flask import Flask, render_template, redirect,url_for
 from get_response import get_user_input,nmap_scan
 from sqs_operations import send_to_queue,receive_msg_from_queue
 from forms import Inputform
@@ -18,14 +18,12 @@ async def main():
         await send_to_queue(user_input)
 
         domain_name_to_scan=await receive_msg_from_queue()
-        await nmap_scan(domain_name_to_scan)
+        result=await nmap_scan(domain_name_to_scan)
 
-        return redirect(url_for('success'))
+        return render_template("success.html",result=result)
+
     return render_template('index.html',form=form)
 
-@app.route("/success")
-def success():
-    return render_template("success.html")
 
 
 if __name__ == "__main__":

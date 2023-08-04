@@ -15,7 +15,7 @@ async def nmap_scan(domain_name: str):
 
     stdout, stderr = await process.communicate()
     print(f"Standard Output: {stdout.decode()}")
-
+    return stdout
 
 if __name__ == "__main__":
     nmap_scan("google.com")
